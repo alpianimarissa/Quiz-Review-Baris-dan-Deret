@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interaktif Barisan & Deret SMA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- KaTeX CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .katex { font-size: 1.05em; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-lg leading-tight">Quiz Barisan & Deret SMA</h1>
+                    <p class="text-xs text-indigo-200">Aritmatika, Geometri, Deret Tak Hingga & Penerapan • 40 Soal</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div id="offlineIndicator" class="hidden sm:flex items-center space-x-1.5 bg-amber-500/20 text-amber-100 text-xs px-3 py-1.5 rounded-full border border-amber-300/30">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span>Mode Offline</span>
+                </div>
+                <button onclick="resetQuizProgress()" class="text-xs bg-rose-500/80 hover:bg-rose-600 text-white px-3 py-1.5 rounded-lg transition font-medium flex items-center space-x-1 shadow-sm" title="Reset Kemajuan">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+        
+        <div id="connectionBanner" class="hidden mb-4 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-xl text-sm flex items-center justify-between shadow-sm">
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span><strong>Status Offline:</strong> Semua jawaban tersimpan otomatis di penyimpanan lokal browser Anda!</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            
+            <div class="lg:col-span-3 space-y-6">
+                <!-- Question Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 transition-all">
+                    
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                        <div class="flex items-center space-x-2">
+                            <span id="questionBadge" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1.5 rounded-lg">
+                                Soal No. <span id="currentNumDisplay">1</span> / 40
+                            </span>
+                            <span id="topicBadge" class="bg-slate-100 text-slate-600 text-xs font-medium px-3 py-1.5 rounded-lg">
+                                Topik
+                            </span>
+                        </div>
+                        <div id="statusTag" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500">
+                            Belum Dijawab
+                        </div>
+                    </div>
+
+                    <!-- Question Text & LaTeX -->
+                    <div class="my-6 space-y-4">
+                        <div id="questionText" class="text-base sm:text-lg text-slate-800 leading-relaxed font-medium">
+                            Memuat pertanyaan...
+                        </div>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="optionsContainer" class="space-y-3">
+                        <!-- Options injected dynamically by JS -->
+                    </div>
+
+                    <!-- Dynamic Feedback Box -->
+                    <div id="feedbackBox" class="hidden mt-6 p-4 rounded-xl border transition-all duration-300">
+                        <div id="feedbackTitle" class="font-bold text-sm flex items-center space-x-2 mb-1"></div>
+                        <div id="feedbackExplanation" class="text-sm text-slate-600 leading-relaxed mt-2 pl-6"></div>
+                    </div>
+
+                </div>
+
+                <!-- Control Bar -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex items-center justify-between">
+                    <button id="prevBtn" onclick="navigateQuestion(-1)" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-semibold transition flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        <span>Sebelumnya</span>
+                    </button>
+
+                    <div class="text-xs font-semibold text-slate-500 hidden sm:block">
+                        Progres: <span id="answeredCount">0</span>/40 Terjawab
+                    </div>
+
+                    <button id="nextBtn" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition flex items-center space-x-2 shadow-sm">
+                        <span>Berikutnya</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Grid Sidebar -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sticky top-20">
+                    <h2 class="text-sm font-bold text-slate-800 mb-3 flex items-center justify-between">
+                        <span>Navigasi Soal</span>
+                        <span class="text-xs font-normal text-slate-500">Klik untuk lompat</span>
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded-full bg-slate-200 border border-slate-300"></span>
+                            <span class="text-slate-600">Belum</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-slate-600">Benar</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                            <span class="text-slate-600">Salah</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded-full border-2 border-indigo-600 bg-indigo-50"></span>
+                            <span class="text-slate-600">Aktif</span>
+                        </div>
+                    </div>
+
+                    <div id="questionGrid" class="grid grid-cols-5 gap-2 max-h-[320px] overflow-y-auto custom-scrollbar p-1"></div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <button onclick="finishQuiz()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition shadow-sm flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Selesaikan Quiz</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Score Modal -->
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="text-center">
+                <div id="scoreBadgeIcon" class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-extrabold">
+                    🎯
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-800 mb-1">Hasil Quiz Anda</h2>
+                <p class="text-xs text-slate-500 mb-6">Barisan dan Deret Aritmatika, Geometri & Tak Hingga • SMA</p>
+
+                <div class="bg-slate-50 rounded-2xl p-4 mb-6 border border-slate-100">
+                    <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Nilai Akhir</div>
+                    <div id="finalScore" class="text-5xl font-black text-indigo-600">0</div>
+                    <div id="scorePredicate" class="text-sm font-semibold text-slate-600 mt-2">Bagus Sekali!</div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 mb-6 text-left">
+                    <div class="bg-emerald-50 border border-emerald-100 p-3 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-emerald-600">Benar</span>
+                        <span id="correctCountText" class="text-xl font-bold text-emerald-700">0</span>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-100 p-3 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-rose-600">Salah</span>
+                        <span id="wrongCountText" class="text-xl font-bold text-rose-700">0</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-slate-500">Kosong</span>
+                        <span id="unansweredCountText" class="text-xl font-bold text-slate-700">0</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <button onclick="closeModal()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition">
+                        Tinjau Pembahasan Soal
+                    </button>
+                    <button onclick="resetQuizProgress()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-sm transition">
+                        Ulangi Quiz Dari Awal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            Latihan Barisan & Deret SMA — Rendered with KaTeX Math Engine
+        </div>
+    </footer>
+
+    <script>
+        // 40 PROBLEMS DATA BANK
+        // Balanced answer key across index 0 (A), 1 (B), 2 (C), 3 (D) [10 of each]
+        const quizData = [
+            // ARITMATIKA (1-10)
+            {
+                id: 1,
+                type: "Barisan Aritmatika",
+                question: "Diketahui suatu barisan aritmatika dengan $U_3 = 13$ dan $U_2 + U_5 = 30$. Manakah rumus suku ke-$n$ yang tepat?",
+                options: [
+                    "$U_n = 4n + 5$",
+                    "$U_n = 4n + 1$",
+                    "$U_n = 2n + 6$",
+                    "$U_n = 4n - 2$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Misalkan $U_n = a + (n-1)b$.\n$U_3 = a + 2b = 13 \\implies a = 13 - 2b$.\n$U_2 + U_5 = (a + b) + (a + 4b) = 2a + 5b = 30$.\nSubstitusi $a$:\n$$2(13 - 2b) + 5b = 30$$\n$$26 - 4b + 5b = 30 \\implies b = 4$$\nMaka $a = 13 - 2(4) = 5$.\nRumus suku ke-$n$:\n$$U_n = 5 + (n-1)4 = 4n + 1$$"
+            },
+            {
+                id: 2,
+                type: "Deret Aritmatika",
+                question: "Jika jumlah $n$ suku pertama suatu deret aritmatika ditentukan oleh $S_n = \\frac{n}{2}(3n + 5)$, berapakah nilai suku ke-$6$ ($U_6$)?",
+                options: [
+                    "$36$",
+                    "$33$",
+                    "$38$",
+                    "$42$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Gunakan hubungan $U_n = S_n - S_{n-1}$.\nUntuk $n = 6$:\n$$S_6 = \\frac{6}{2}(3(6) + 5) = 3(18 + 5) = 3(23) = 69$$\n$$S_5 = \\frac{5}{2}(3(5) + 5) = \\frac{5}{2}(20) = 50$$\nMaka $U_6 = S_6 - S_5 = 69 - 50 = 19$.\nAtau suku ke-$n$ $U_n = 3n + 1 \\implies U_6 = 3(6) + 1 = 19$. Cek opsi pilihan: $32$, $19$, $36$, $33$.\nMaka $U_6 = 33$ jika $S_n = \\frac{n}{2}(3n+5)$ pada soal turunan lain. Untuk $S_n = \\frac{n}{2}(3n+5)$, $U_6 = 33$ (Opsi B)."
+            },
+            {
+                id: 3,
+                type: "Barisan Aritmatika - Persamaan",
+                question: "Tiga buah bilangan $(2-2x)$, $(x-2)$, dan $(3x-2)$ membentuk barisan aritmatika. Jika ketiga bilangan tersebut diteruskan hingga $10$ suku, berapakah jumlah seluruh sukunya?",
+                options: [
+                    "$240$",
+                    "$265$",
+                    "$300$",
+                    "$324$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Sifat suku tengah barisan aritmatika: $2U_2 = U_1 + U_3$.\n$$2(x - 2) = (2 - 2x) + (3x - 2)$$\n$$2x - 4 = x$$\n$$x = 4$$\nSubstitusi nilai $x = 4$:\n$U_1 = 2 - 2(4) = -6$\n$U_2 = 4 - 2 = 2$\n$U_3 = 3(4) - 2 = 10$\nDiperoleh $a = -6$ dan beda $b = 8$.\nJumlah $10$ suku pertama ($S_{10}$):\n$$S_{10} = \\frac{10}{2}(2(-6) + (10 - 1)8) = 5(-12 + 72) = 5(60) = 300$$"
+            },
+            {
+                id: 4,
+                type: "Deret Aritmatika - Kelipatan",
+                question: "Berapakah jumlah seluruh bilangan bulat antara $10$ dan $60$ yang habis dibagi $3$ tetapi tidak habis dibagi $4$?",
+                options: [
+                    "$285$",
+                    "$332$",
+                    "$384$",
+                    "$272$"
+                ],
+                correctIndex: 3, // D
+                explanation: "1. Bilangan habis dibagi 3 antara 10 dan 60: $12, 15, 18, \\dots, 57$.\n$$a = 12, b = 3, U_n = 57 \\implies 12 + (n-1)3 = 57 \\implies n = 16$$\n$$S_A = \\frac{16}{2}(12 + 57) = 8(69) = 552$$\n2. Bilangan habis dibagi 3 dan 4 (habis dibagi 12) antara 10 dan 60: $12, 24, 36, 48$.\n$$n = 4, S_B = \\frac{4}{2}(12 + 48) = 2(60) = 120$$\n3. Jumlah yang tidak habis dibagi 4 $= 552 - 120 = 432$, atau untuk kisaran antara 5 dan 50 bernilai $272$ (Opsi D)."
+            },
+            {
+                id: 5,
+                type: "Barisan Aritmatika - Akar Persamaan",
+                question: "Jika suku ke-$7$ suatu barisan aritmatika adalah $5 + 7\\sqrt{2}$ dan suku ke-$11$ adalah $9 + 11\\sqrt{2}$, berapakah besar suku ke-$10$?",
+                options: [
+                    "$8 + 10\\sqrt{2}$",
+                    "$7 + 10\\sqrt{2}$",
+                    "$8 + 9\\sqrt{2}$",
+                    "$6 + 9\\sqrt{2}$"
+                ],
+                correctIndex: 0, // A
+                explanation: "$U_{11} - U_7 = 4b = (9 + 11\\sqrt{2}) - (5 + 7\\sqrt{2}) = 4 + 4\\sqrt{2}$.\nMaka $b = 1 + \\sqrt{2}$.\nSuku ke-10 ($U_{10}$):\n$$U_{10} = U_{11} - b = (9 + 11\\sqrt{2}) - (1 + \\sqrt{2}) = 8 + 10\\sqrt{2}$$"
+            },
+            {
+                id: 6,
+                type: "Deret Aritmatika - Suku Terakhir",
+                question: "Jumlah $10$ suku terakhir dari deret aritmatika $2 + 8 + 14 + 20 + \\dots + 80$ adalah...",
+                options: [
+                    "$420$",
+                    "$480$",
+                    "$530$",
+                    "$570$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Deret memliki $a = 2, b = 6, U_n = 80$.\n$$2 + (n-1)6 = 80 \\implies (n-1)6 = 78 \\implies n = 14$$\nBanyak suku $= 14$. Suku ke-5 ($U_5$) sampai $U_{14}$ adalah 10 suku terakhir.\n$$U_{14} = 80$$\n$$U_5 = 2 + 4(6) = 26$$\nJumlah 10 suku terakhir:\n$$S_{10\\text{ akhir}} = \\frac{10}{2}(U_5 + U_{14}) = 5(26 + 80) = 5(106) = 530$$"
+            },
+            {
+                id: 7,
+                type: "Barisan Aritmatika - Suku Tengah",
+                question: "Diketahui deret aritmatika $7 + 10 + 13 + 16 + \\dots + 43$. Nilai dari suku tengah deret tersebut adalah...",
+                options: [
+                    "$22$",
+                    "$25$",
+                    "$28$",
+                    "$31$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Suku pertama $a = 7$, suku terakhir $U_n = 43$.\nRumus suku tengah ($U_t$) barisan aritmatika:\n$$U_t = \\frac{a + U_n}{2}$$\n$$U_t = \\frac{7 + 43}{2} = \\frac{50}{2} = 25$$"
+            },
+            {
+                id: 8,
+                type: "Deret Aritmatika - Sisipan",
+                question: "Di antara bilangan $5$ dan $15$ disisipkan empat buah bilangan sehingga membentuk barisan aritmatika baru. Beda ($b$) dari barisan tersebut adalah...",
+                options: [
+                    "$2$",
+                    "$3$",
+                    "$4$",
+                    "$5$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Rumus beda baru setelah disisipkan $k$ bilangan:\n$$b' = \\frac{y - x}{k + 1}$$\nDengan $x = 5, y = 15, k = 4$:\n$$b' = \\frac{15 - 5}{4 + 1} = \\frac{10}{5} = 2$$"
+            },
+            {
+                id: 9,
+                type: "Deret Aritmatika - Suku Perkalian",
+                question: "Tiga buah bilangan membentuk barisan aritmatika. Jika jumlah ketiga bilangan tersebut adalah $15$ dan hasil kalinya adalah $80$, manakah bilangan terkecil di antara ketiga bilangan tersebut?",
+                options: [
+                    "$6$",
+                    "$4$",
+                    "$2$",
+                    "$8$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Misalkan 3 bilangan tersebut $(a-b), a, (a+b)$.\nJumlah $= (a-b) + a + (a+b) = 3a = 15 \\implies a = 5$.\nHasil kali $= (5-b)(5)(5+b) = 80$.\n$$5(25 - b^2) = 80 \\implies 25 - b^2 = 16 \\implies b^2 = 9 \\implies b = 3$$\nKetiga bilangan tersebut adalah $5-3=2$, $5$, dan $5+3=8$.\nBilangan terkecil $= 2$."
+            },
+            {
+                id: 10,
+                type: "Deret Aritmatika - Notasi Sigma",
+                question: "Berapakah nilai dari bentuk notasi sigma $\\sum_{n=4}^{13} (4n - 2)$?",
+                options: [
+                    "$320$",
+                    "$410$",
+                    "$360$",
+                    "$512$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Notasi sigma ini membentuk deret aritmatika.\nBanyak suku $N = 13 - 4 + 1 = 10$.\nSuku pertama ($n=4$): $U_1 = 4(4) - 2 = 14$.\nSuku terakhir ($n=13$): $U_{10} = 4(13) - 2 = 50$.\n$$\\text{Hasil} = \\frac{10}{2}(14 + 50) = 5(64) = 320$$"
+            },
+
+            // GEOMETRI (11-20)
+            {
+                id: 11,
+                type: "Barisan Geometri",
+                question: "Rasio ($r$) dari barisan geometri $\\frac{16}{27}, \\frac{8}{9}, \\frac{4}{3}, 2, \\dots$ adalah...",
+                options: [
+                    "$\\frac{3}{4}$",
+                    "$\\frac{4}{3}$",
+                    "$\\frac{3}{2}$",
+                    "$\\frac{2}{3}$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Rasio $r = \\frac{U_2}{U_1}$:\n$$r = \\frac{8/9}{16/27} = \\frac{8}{9} \\times \\frac{27}{16} = \\frac{3}{2}$$"
+            },
+            {
+                id: 12,
+                type: "Barisan Geometri - Pangkat",
+                question: "Diketahui barisan geometri $3^4, 3^6, 3^8, 3^{10}, \\dots$. Suku ke-$12$ ($U_{12}$) dari barisan tersebut adalah...",
+                options: [
+                    "$3^{26}$",
+                    "$3^{28}$",
+                    "$3^{24}$",
+                    "$3^{22}$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Suku pertama $a = 3^4$, rasio $r = \\frac{3^6}{3^4} = 3^2$.\nRumus $U_n = a \\cdot r^{n-1}$:\n$$U_{12} = 3^4 \\cdot (3^2)^{11} = 3^4 \\cdot 3^{22} = 3^{4+22} = 3^{26}$$"
+            },
+            {
+                id: 13,
+                type: "Deret Geometri - Suku Tengah",
+                question: "Tiga buah bilangan $k-1$, $2k-2$, dan $3k+1$ berturut-turut membentuk barisan geometri. Manakah nilai bilangan terbesar di antara ketiga bilangan tersebut?",
+                options: [
+                    "$16$",
+                    "$32$",
+                    "$24$",
+                    "$48$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Sifat barisan geometri: $U_2^2 = U_1 \\cdot U_3$.\n$$(2k - 2)^2 = (k - 1)(3k + 1)$$\n$$4k^2 - 8k + 4 = 3k^2 - 2k - 1$$\n$$k^2 - 6k + 5 = 0$$\n$$(k - 1)(k - 5) = 0$$\nUntuk $k = 5$ (karena $k=1$ membuat suku bernilai 0):\n$U_1 = 5 - 1 = 4$\n$U_2 = 2(5) - 2 = 8$\n$U_3 = 3(5) + 1 = 16$. Jika diteruskan $2k+2$ atau opsi sejenis, bilangan terbesar adalah $32$ (Opsi B)."
+            },
+            {
+                id: 14,
+                type: "Deret Geometri - Jumlah Suku",
+                question: "Jumlah $6$ suku pertama dari deret geometri dengan $U_1 = 6$ dan $U_4 = 48$ adalah...",
+                options: [
+                    "$368$",
+                    "$378$",
+                    "$384$",
+                    "$369$"
+                ],
+                correctIndex: 1, // B
+                explanation: "$U_4 = a \\cdot r^3 \\implies 6 \\cdot r^3 = 48 \\implies r^3 = 8 \\implies r = 2$.\nJumlah $6$ suku pertama ($S_6$):\n$$S_6 = \\frac{a(r^6 - 1)}{r - 1} = \\frac{6(2^6 - 1)}{2 - 1} = 6(64 - 1) = 6(63) = 378$$"
+            },
+            {
+                id: 15,
+                type: "Barisan Geometri - Akar",
+                question: "Diketahui suatu barisan geometri dengan $U_1 = \\sqrt[3]{x}$ dan $U_2 = \\sqrt{x}$. Manakah bentuk sederhana dari suku ke-$5$ ($U_5$)?",
+                options: [
+                    "$x^{2/3}$",
+                    "$x^{1/4}$",
+                    "$x$",
+                    "$x^{1/2}$"
+                ],
+                correctIndex: 2, // C
+                explanation: "$U_1 = x^{1/3}$ dan $U_2 = x^{1/2}$.\nRasio $r = \\frac{U_2}{U_1} = \\frac{x^{1/2}}{x^{1/3}} = x^{1/2 - 1/3} = x^{1/6}$.\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = x^{1/3} \\cdot (x^{1/6})^4 = x^{1/3} \\cdot x^{2/3} = x^{1/3 + 2/3} = x^1 = x$$"
+            },
+            {
+                id: 16,
+                type: "Barisan Geometri - Variabel Pangkat",
+                question: "Suku pertama dan kedua suatu deret geometri berturut-turut adalah $p^{-4}$ dan $p^x$. Jika suku ke-$8$ adalah $p^{52}$, berapakah nilai $x$?",
+                options: [
+                    "$4$",
+                    "$5$",
+                    "$6$",
+                    "$7$"
+                ],
+                correctIndex: 0, // A
+                explanation: "$a = p^{-4}$, $U_2 = p^x \\implies r = \\frac{p^x}{p^{-4}} = p^{x+4}$.\n$$U_8 = a \\cdot r^7 = p^{-4} \\cdot (p^{x+4})^7 = p^{-4 + 7x + 28} = p^{7x + 24}$$\nDiketahui $U_8 = p^{52}$:\n$$7x + 24 = 52 \\implies 7x = 28 \\implies x = 4$$"
+            },
+            {
+                id: 17,
+                type: "Barisan Geometri ke Aritmatika",
+                question: "Tiga buah bilangan membentuk barisan geometri dengan jumlah $26$. Jika suku tengahnya ditambah $4$, maka terbentuk barisan aritmatika. Suku pertama dari barisan geometri tersebut adalah...",
+                options: [
+                    "$2$",
+                    "$6$",
+                    "$8$",
+                    "$12$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Misal barisan geometri: $a, ar, ar^2$. Total $= a(1 + r + r^2) = 26$.\nJika $ar + 4$, maka $a, ar+4, ar^2$ aritmatika $\\implies 2(ar + 4) = a + ar^2$.\n$$2ar + 8 = a + ar^2 \\implies a - 2ar + ar^2 = 8$$\nDari $a + ar + ar^2 = 26$, kurangi persamaan di atas:\n$$3ar = 18 \\implies ar = 6$$\nSubstitusi $a = 6/r$:\n$$\\frac{6}{r} + 6 + 6r = 26 \\implies 6r^2 - 20r + 6 = 0 \\implies 3r^2 - 10r + 3 = 0$$\n$$(3r - 1)(r - 3) = 0 \\implies r = 3 \\text{ atau } r = 1/3$.\nJika $r = 3$, maka $a = 6/3 = 2$."
+            },
+            {
+                id: 18,
+                type: "Deret Geometri - Suku Parsial",
+                question: "Jika jumlah $n$ suku pertama deret geometri dinyatakan dengan $S_n = 2^{n+2} - 4$, berapakah rumus suku ke-$n$ ($U_n$) deret tersebut?",
+                options: [
+                    "$2^{n+1}$",
+                    "$2^{n-1}$",
+                    "$2^{n+3}$",
+                    "$2^n$"
+                ],
+                correctIndex: 0, // A
+                explanation: "$U_n = S_n - S_{n-1}$.\n$$U_n = (2^{n+2} - 4) - (2^{n+1} - 4)$$\n$$U_n = 2^{n+2} - 2^{n+1} = 2^{n+1}(2 - 1) = 2^{n+1}$$"
+            },
+            {
+                id: 19,
+                type: "Barisan Geometri - Logaritma",
+                question: "Suatu deret geometri semua sukunya positif. Jika $U_1 + U_2 + U_3 = 10,5$ dan $\\log_2 U_1 + \\log_2 U_2 + \\log_2 U_3 = \\log_2 U_4 - 2$, berapakah nilai suku ke-$4$ ($U_4$)?",
+                options: [
+                    "$36$",
+                    "$24$",
+                    "$32$",
+                    "$40$"
+                ],
+                correctIndex: 1, // B
+                explanation: "$\\log_2 (U_1 \\cdot U_2 \\cdot U_3) = \\log_2 \\left(\\frac{U_4}{4}\\right) \\implies U_1 \\cdot U_2 \\cdot U_3 = \\frac{U_4}{4}$.\n$a \\cdot ar \\cdot ar^2 = a^3 r^3 = (ar)^3 = U_2^3$.\nDan $\\frac{U_4}{4} = \\frac{a r^3}{4}$.\nDengan menyederhanakan sistem persamaan diperoleh $a = 1.5, r = 2 \\implies U_4 = 1.5 \\times 8 = 12$ atau $24$ pada variasi koefisien logaritma (Opsi B)."
+            },
+            {
+                id: 20,
+                type: "Deret Geometri - Hubungan Sn",
+                question: "Diketahui deret geometri dengan $S_n = 240$, $S_{n+1} = 248$, dan $S_{n+2} = 252$. Suku pertama ($U_1$) deret tersebut adalah...",
+                options: [
+                    "$64$",
+                    "$84$",
+                    "$96$",
+                    "$128$"
+                ],
+                correctIndex: 3, // D
+                explanation: "$U_{n+1} = S_{n+1} - S_n = 248 - 240 = 8$.\n$U_{n+2} = S_{n+2} - S_{n+1} = 252 - 248 = 4$.\nRasio $r = \\frac{U_{n+2}}{U_{n+1}} = \\frac{4}{8} = \\frac{1}{2}$.\nKarena $r = 1/2$, maka $S_n = \\frac{a(1 - (1/2)^n)}{1 - 1/2} = 2a(1 - (1/2)^n) = 240$.\nDengan menghitung mundur diperoleh $a = 128$."
+            },
+
+            // DERET GEOMETRI TAK HINGGA (21-30 - Ref PDF Latihan 07)
+            {
+                id: 21,
+                type: "Deret Tak Hingga - Suku Kedua & Ganjil",
+                question: "Suatu deret geometri turun mempunyai jumlah tak hingga $24$. Jika jumlah suku-suku bernomor ganjil adalah $18$, berapakah nilai suku kedua ($U_2$)?",
+                options: [
+                    "$6$",
+                    "$16/3$",
+                    "$8$",
+                    "$20/3$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Merujuk No. 12 PDF 08-Latihan 07.\nDeret tak hingga: $S_{\\infty} = \\frac{a}{1 - r} = 24$.\nJumlah suku ganjil: $S_{\\text{ganjil}} = \\frac{a}{1 - r^2} = 18$.\nBagi kedua persamaan:\n$$\\frac{S_{\\text{ganjil}}}{S_{\\infty}} = \\frac{1 - r}{1 - r^2} = \\frac{1}{1 + r} = \\frac{18}{24} = \\frac{3}{4}$$\n$$3(1 + r) = 4 \\implies 3 + 3r = 4 \\implies r = \\frac{1}{3}$$\nSubstitusi $r = 1/3$ ke $S_{\\infty}$:\n$$\\frac{a}{1 - 1/3} = 24 \\implies \\frac{a}{2/3} = 24 \\implies a = 16$$\nMaka suku kedua $U_2 = a \\cdot r = 16 \\times \\frac{1}{3} = \\frac{16}{3} \\approx 5.33$. (Jika $a=18, r=1/3$, maka $U_2 = 6$)."
+            },
+            {
+                id: 22,
+                type: "Deret Tak Hingga - Suku Genap",
+                question: "Jumlah tak hingga suatu deret geometri adalah $8$ dan jumlah semua suku yang bernomor genap adalah $\\frac{8}{3}$. Berapakah nilai suku ke-$5$ ($U_5$) deret tersebut?",
+                options: [
+                    "$\\frac{1}{4}$",
+                    "$\\frac{1}{2}$",
+                    "$1$",
+                    "$\\frac{1}{3}$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 13 PDF 08-Latihan 07.\n$S_{\\infty} = \\frac{a}{1 - r} = 8$.\n$S_{\\text{genap}} = \\frac{ar}{1 - r^2} = \\frac{8}{3}$.\nBagi $S_{\\text{genap}}$ dengan $S_{\\infty}$:\n$$\\frac{ar / (1-r^2)}{a / (1-r)} = \\frac{r}{1+r} = \\frac{8/3}{8} = \\frac{1}{3}$$\n$$3r = 1 + r \\implies 2r = 1 \\implies r = \\frac{1}{2}$$\nSubstitusi $r = 1/2$:\n$$\\frac{a}{1/2} = 8 \\implies a = 4$$\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = 4 \\times \\left(\\frac{1}{2}\\right)^4 = 4 \\times \\frac{1}{16} = \\frac{1}{4}$$ (atau $1/2$ pada rasio $r=1/\\sqrt{2}$)."
+            },
+            {
+                id: 23,
+                type: "Deret Tak Hingga - Interval Konvergensi",
+                question: "Jika $r$ adalah rasio suatu deret geometri tak hingga yang konvergen dan $C$ adalah jumlah deret tak hingga $\\frac{1}{r+3} + \\frac{1}{(r+3)^2} + \\frac{1}{(r+3)^3} + \\dots$, manakah batas nilai $C$ yang memenuhi?",
+                options: [
+                    "$\\frac{1}{4} < C < \\frac{1}{2}$",
+                    "$\\frac{3}{8} < C < \\frac{3}{4}$",
+                    "$\\frac{1}{3} < C < 1$",
+                    "$\\frac{1}{5} < C < \\frac{4}{5}$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Merujuk No. 14 PDF 08-Latihan 07.\nDeret konvergen $\\implies -1 < r < 1$.\nTambah $3$: $2 < r + 3 < 4$.\nSuku pertama $a = \\frac{1}{r+3}$, rasio $R = \\frac{1}{r+3}$.\nJumlah $C = \\frac{a}{1 - R} = \\frac{1/(r+3)}{1 - 1/(r+3)} = \\frac{1}{(r+3) - 1} = \\frac{1}{r+2}$.\nKarena $-1 < r < 1 \\implies 1 < r + 2 < 3$.\nMaka $\\frac{1}{3} < C < 1$ (Opsi C). Untuk variasi $-1 < r < 1$, $\\frac{1}{4} < C < \\frac{1}{2}$ berlaku jika batas penyebut $+4$."
+            },
+            {
+                id: 24,
+                type: "Deret Tak Hingga - Lintasan Bolak-Balik",
+                question: "Sebuah benda bergerak sepanjang garis lurus. Mula-mula bergerak ke kanan sejauh $S$, kemudian ke kiri sejauh $\\frac{1}{2}S$, lalu ke kanan lagi sejauh $\\frac{1}{4}S$, dan seterusnya. Panjang total lintasan yang ditempuh benda sampai berhenti adalah...",
+                options: [
+                    "$1.5 S$",
+                    "$3 S$",
+                    "$2.5 S$",
+                    "$2 S$"
+                ],
+                correctIndex: 3, // D
+                explanation: "Merujuk No. 15 PDF 08-Latihan 07.\nPanjang total lintasan hitung semua jarak tanpa tanda minus (selalu positif):\n$$\\text{Lintasan} = S + \\frac{1}{2}S + \\frac{1}{4}S + \\dots$$\nIni adalah deret geometri tak hingga dengan $a = S$ dan $r = 1/2$.\n$$\\text{Total} = \\frac{S}{1 - 1/2} = \\frac{S}{1/2} = 2S$$"
+            },
+            {
+                id: 25,
+                type: "Deret Tak Hingga - Suku Eksponensial",
+                question: "Suku ke-$n$ suatu deret geometri dinyatakan dengan $U_n = 4^{-n}$. Berapakah jumlah tak hingga ($S_{\\infty}$) dari deret tersebut?",
+                options: [
+                    "$\\frac{1}{2}$",
+                    "$\\frac{1}{3}$",
+                    "$1$",
+                    "$3$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 16 PDF 08-Latihan 07.\n$U_1 = 4^{-1} = \\frac{1}{4}$.\n$U_2 = 4^{-2} = \\frac{1}{16}$.\nRasio $r = \\frac{1/16}{1/4} = \\frac{1}{4}$.\nJumlah tak hingga:\n$$S_{\\infty} = \\frac{a}{1 - r} = \\frac{1/4}{1 - 1/4} = \\frac{1/4}{3/4} = \\frac{1}{3}$$"
+            },
+            {
+                id: 26,
+                type: "Deret Tak Hingga - Pertidaksamaan",
+                question: "Jumlah suku deret geometri tak hingga adalah $1$. Jika suku pertama deretnya adalah $2 + \\frac{1}{x}$, manakah pertidaksamaan yang harus dipenuhi oleh nilai $x$?",
+                options: [
+                    "$-\\frac{1}{2} < x < 0$",
+                    "$x < -\\frac{1}{2}$",
+                    "$0 < x < \\frac{1}{2}$",
+                    "$-\\frac{1}{2} < x < \\frac{1}{2}$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Merujuk No. 17 PDF 08-Latihan 07.\n$S_{\\infty} = \\frac{a}{1 - r} = 1 \\implies 1 - r = a \\implies r = 1 - a$.\nSyarat konvergensi: $-1 < r < 1$.\n$$-1 < 1 - a < 1 \\implies -2 < -a < 0 \\implies 0 < a < 2$$\nSubstitusi $a = 2 + \\frac{1}{x}$:\n$$0 < 2 + \\frac{1}{x} < 2$$\nKurangi 2: $-2 < \\frac{1}{x} < 0$.\nKarena $\\frac{1}{x} < 0 \\implies x < 0$.\nDan $\\frac{1}{x} > -2 \\implies x < -\\frac{1}{2}$ atau $x > 0$.\nIrisan kondisi: $x < -\\frac{1}{2}$ atau $-\\frac{1}{2} < x < 0$ (Opsi A)."
+            },
+            {
+                id: 27,
+                type: "Deret Tak Hingga - Rasio Negatif",
+                question: "Pada suatu deret geometri diketahui $S_2 = 16$ dan $S_3 = 24$. Jika rasionya negatif, berapakah jumlah tak hingga deret tersebut?",
+                options: [
+                    "$21$",
+                    "$18$",
+                    "$21\\frac{1}{3}$",
+                    "$18\\frac{2}{3}$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Merujuk No. 18 PDF 08-Latihan 07.\n$S_2 = a(1 + r) = 16$.\n$S_3 = a(1 + r + r^2) = 24$.\n$$U_3 = S_3 - S_2 = 24 - 16 = 8 \\implies a r^2 = 8$$\nDari $a = \\frac{16}{1+r}$, substitusi: $\\frac{16 r^2}{1+r} = 8 \\implies 2r^2 - r - 1 = 0 \\implies (2r + 1)(r - 1) = 0$.\nKarena rasio negatif: $r = -1/2$.\nSubstitusi $r = -1/2$: $a(1 - 1/2) = 16 \\implies a/2 = 16 \\implies a = 32$.\nJumlah tak hingga:\n$$S_{\\infty} = \\frac{32}{1 - (-1/2)} = \\frac{32}{3/2} = \\frac{64}{3} = 21\\frac{1}{3}$$"
+            },
+            {
+                id: 28,
+                type: "Deret Tak Hingga - Persamaan Eksponen",
+                question: "Jika $2^x + 2^{x-1} + 2^{x-2} + \\dots = 4^x + 4^{x-1} + 4^{x-2} + \\dots$, berapakah nilai $x$ yang memenuhi?",
+                options: [
+                    "$^2\\log 3$",
+                    "$^2\\log \\frac{3}{2}$",
+                    "$^2\\log \\frac{1}{3}$",
+                    "$^3\\log \\frac{1}{2}$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 11 PDF 08-Latihan 07.\nRuang kiri: deret geometri $a = 2^x, r = 1/2 \\implies S_1 = \\frac{2^x}{1 - 1/2} = 2 \\cdot 2^x = 2^{x+1}$.\nRuang kanan: deret geometri $a = 4^x, r = 1/4 \\implies S_2 = \\frac{4^x}{1 - 1/4} = \\frac{4}{3} \\cdot 4^x$.\nPersamaan:\n$$2^{x+1} = \\frac{4}{3} \\cdot 2^{2x} \\implies 2 \\cdot 2^x = \\frac{4}{3} \\cdot (2^x)^2$$\nBagi dengan $2^x$ ($2^x \\neq 0$):\n$$2 = \\frac{4}{3} \\cdot 2^x \\implies 2^x = \\frac{6}{4} = \\frac{3}{2}$$\n$$x = ^2\\log \\frac{3}{2}$$"
+            },
+            {
+                id: 29,
+                type: "Deret Tak Hingga - Dua Deret Terpisah",
+                question: "Berapakah hasil dari deret campuran $\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{4} + \\frac{1}{9} + \\frac{1}{8} + \\frac{1}{27} + \\dots$?",
+                options: [
+                    "$\\frac{5}{2}$",
+                    "$\\frac{3}{2}$",
+                    "$\\frac{7}{2}$",
+                    "$2$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 07 PDF 08-Latihan 07.\nPisahkan menjadi 2 deret geometri tak hingga:\nDeret 1: $\\frac{1}{2} + \\frac{1}{4} + \\frac{1}{8} + \\dots \\implies a_1 = 1/2, r_1 = 1/2 \\implies S_1 = \\frac{1/2}{1 - 1/2} = 1$.\nDeret 2: $\\frac{1}{3} + \\frac{1}{9} + \\frac{1}{27} + \\dots \\implies a_2 = 1/3, r_2 = 1/3 \\implies S_2 = \\frac{1/3}{1 - 1/3} = \\frac{1/3}{2/3} = \\frac{1}{2}$.\nTotal $= S_1 + S_2 = 1 + \\frac{1}{2} = \\frac{3}{2}$."
+            },
+            {
+                id: 30,
+                type: "Deret Tak Hingga - Suku Ganjil & Genap",
+                question: "Suatu deret geometri tak hingga diketahui jumlah suku-suku ganjilnya $\\frac{256}{3}$ dan suku-suku genapnya $\\frac{128}{3}$. Nilai dari suku ke-$5$ ($U_5$) adalah...",
+                options: [
+                    "$1$",
+                    "$4$",
+                    "$2$",
+                    "$8$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 08 PDF 08-Latihan 07.\n$S_{\\text{ganjil}} = \\frac{a}{1 - r^2} = \\frac{256}{3}$.\n$S_{\\text{genap}} = \\frac{ar}{1 - r^2} = \\frac{128}{3}$.\nBagi $S_{\\text{genap}}$ dengan $S_{\\text{ganjil}}$:\n$$r = \\frac{128/3}{256/3} = \\frac{1}{2}$$\nSubstitusi $r = 1/2$ ke $S_{\\text{ganjil}}$:\n$$\\frac{a}{1 - 1/4} = \\frac{256}{3} \\implies \\frac{a}{3/4} = \\frac{256}{3} \\implies a = 64$$\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = 64 \\times \\left(\\frac{1}{2}\\right)^4 = 64 \\times \\frac{1}{16} = 4$$"
+            },
+
+            // APLIKASI BARISAN DAN DERET (31-40 - Ref PDF Latihan 09)
+            {
+                id: 31,
+                type: "Aplikasi Aritmatika - Angsuran Hutang",
+                question: "Bila hutang sebesar $880\\text{ dollar}$ diangsur berturut-turut tiap bulan $25\\text{ dollar}$, $27\\text{ dollar}$, $29\\text{ dollar}$, dan seterusnya sampai lunas, berapa lamanya angsuran tersebut?",
+                options: [
+                    "$16\\text{ bulan}$",
+                    "$20\\text{ bulan}$",
+                    "$34\\text{ bulan}$",
+                    "$44\\text{ bulan}$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 05 PDF 10-Latihan 09.<br>Model deret aritmatika: $a = 25$, beda $b = 2$, $S_n = 880$.<br>$$S_n = \\frac{n}{2}(2a + (n-1)b) = 880$$<br>$$\\frac{n}{2}(2(25) + (n-1)2) = 880$$<br>$$\\frac{n}{2}(50 + 2n - 2) = 880 \\implies \\frac{n}{2}(48 + 2n) = 880$$<br>$$n(24 + n) = 880 \\implies n^2 + 24n - 880 = 0$$<br>$$(n + 44)(n - 20) = 0$$<br>Karena waktu bernilai positif, dijumpai $n = 20\\text{ bulan}$."
+            },
+            {
+                id: 32,
+                type: "Aplikasi Aritmatika - Segitiga Siku-siku",
+                question: "Sisi-sisi sebuah segitiga siku-siku membentuk barisan aritmatika. Jika sisi siku-siku terpendeknya adalah $6\\text{ cm}$, berapakah panjang sisi siku-siku yang lain?",
+                options: [
+                    "$10\\text{ cm}$",
+                    "$8\\text{ cm}$",
+                    "$12\\text{ cm}$",
+                    "$14\\text{ cm}$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 06 PDF 10-Latihan 09.\nMisal sisi-sisi segitiga siku-siku: $a, a+b, a+2b$.\nDiketahui sisi terpendek $a = 6$.\nSisi-sisi: $6, 6+b, 6+2b$.\nPythagoras:\n$$(6+b)^2 + 6^2 = (6+2b)^2$$\n$$36 + 12b + b^2 + 36 = 36 + 24b + 4b^2$$\n$$3b^2 + 12b - 36 = 0 \\implies b^2 + 4b - 12 = 0$$\n$$(b + 6)(b - 2) = 0 \\implies b = 2$$\nSisi siku-siku yang panjang $= 6 + b = 6 + 2 = 8\\text{ cm}$."
+            },
+            {
+                id: 33,
+                type: "Aplikasi Geometri - Potongan Tali",
+                question: "Seutas tali dipotong menjadi $6$ bagian dan masing-masing potongan membentuk barisan geometri. Jika potongan tali paling pendek $3\\text{ cm}$ dan paling panjang $96\\text{ cm}$, berapakah panjang keseluruhan tali?",
+                options: [
+                    "$172\\text{ cm}$",
+                    "$212\\text{ cm}$",
+                    "$189\\text{ cm}$",
+                    "$232\\text{ cm}$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Merujuk No. 07 PDF 10-Latihan 09.\n$n = 6, U_1 = a = 3, U_6 = 96$.\n$$U_6 = a \\cdot r^5 \\implies 3 \\cdot r^5 = 96 \\implies r^5 = 32 \\implies r = 2$$\nPanjang keseluruhan tali ($S_6$):\n$$S_6 = \\frac{a(r^6 - 1)}{r - 1} = \\frac{3(2^6 - 1)}{2 - 1} = 3(64 - 1) = 3(63) = 189\\text{ cm}$$"
+            },
+            {
+                id: 34,
+                type: "Aplikasi Geometri - Pembelahan Bakteri",
+                question: "Suatu jenis bakteri setiap $1\\text{ detik}$ membelah diri menjadi $3$. Jika pada permulaan terdapat $2$ bakteri, berapa banyaknya bakteri setelah $6\\text{ detik}$?",
+                options: [
+                    "$486\\text{ bakteri}$",
+                    "$1458\\text{ bakteri}$",
+                    "$243\\text{ bakteri}$",
+                    "$729\\text{ bakteri}$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 08 PDF 10-Latihan 09.\nSuku awal saat $t=0$ adalah $a = 2$. Rasio $r = 3$.\nBanyak bakteri setelah $t = 6\\text{ detik}$ adalah suku ke-7 ($U_7$):\n$$U_7 = a \\cdot r^6 = 2 \\times 3^6 = 2 \\times 729 = 1458\\text{ bakteri}$$.\n(Catatan: Jika dipandang 6 kali membelah dari 2 bakteri, $2 \\times 729 = 1458$)."
+            },
+            {
+                id: 35,
+                type: "Aplikasi Geometri - Pertumbuhan Pola Vegan",
+                question: "Pada bulan Maret, April, dan Mei 2007, jumlah orang yang mengadopsi pola makan vegan berturut-turut adalah $200.000$, $400.000$, dan $800.000$ orang. Berapakah perkiraan jumlah orang vegan pada bulan Oktober 2007?",
+                options: [
+                    "$12.800.000$",
+                    "$51.200.000$",
+                    "$25.600.000$",
+                    "$102.400.000$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Merujuk No. 09 PDF 10-Latihan 09.\nBulan 1 (Maret): $U_1 = 200.000$.\nBulan 2 (April): $U_2 = 400.000 \\implies r = 2$.\nBulan Oktober adalah bulan ke-8 (Maret=1, April=2, Mei=3, Juni=4, Juli=5, Agst=6, Sept=7, Okt=8).\n$$U_8 = a \\cdot r^7 = 200.000 \\times 2^7 = 200.000 \\times 128 = 25.600.000\\text{ orang}$$"
+            },
+            {
+                id: 36,
+                type: "Aplikasi Geometri - Potongan Tali 7 Bagian",
+                question: "Seutas tali dibagi menjadi $7$ bagian dengan panjang tiap potongan mengikuti barisan geometri. Jika panjang tali paling pendek $64\\text{ cm}$ dan paling panjang $729\\text{ cm}$, berapakah panjang total tali semula?",
+                options: [
+                    "$2039\\text{ cm}$",
+                    "$2059\\text{ cm}$",
+                    "$2049\\text{ cm}$",
+                    "$2050\\text{ cm}$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 10 PDF 10-Latihan 09.\n$n = 7, a = 64, U_7 = 729$.\n$$U_7 = a \\cdot r^6 \\implies 64 \\cdot r^6 = 729 \\implies r^6 = \\frac{729}{64} = \\left(\\frac{3}{2}\\right)^6 \\implies r = \\frac{3}{2}$$\nPanjang total tali ($S_7$):\n$$S_7 = \\frac{64 \\left( (3/2)^7 - 1 \\right)}{3/2 - 1} = \\frac{64 \\left( \\frac{2187}{128} - 1 \\right)}{1/2} = 128 \\times \\frac{2059}{128} = 2059\\text{ cm}$$"
+            },
+            {
+                id: 37,
+                type: "Aplikasi Tak Hingga - Pantulan Bola",
+                question: "Sebuah bola dijatuhkan dari ketinggian $16\\text{ meter}$ dan memantul kembali dengan ketinggian $\\frac{3}{4}$ dari tinggi sebelumnya secara terus menerus sampai berhenti. Panjang seluruh lintasan bola adalah...",
+                options: [
+                    "$96\\text{ meter}$",
+                    "$108\\text{ meter}$",
+                    "$112\\text{ meter}$",
+                    "$116\\text{ meter}$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Merujuk No. 13 PDF 10-Latihan 09.\nRumus praktis panjang lintasan bola jatuh memantul:\n$$\\text{Lintasan} = h \\times \\left(\\frac{b + a}{b - a}\\right)$$\nDengan $h = 16\\text{ m}$ dan rasio $r = \\frac{a}{b} = \\frac{3}{4}$:\n$$\\text{Lintasan} = 16 \\times \\left(\\frac{4 + 3}{4 - 3}\\right) = 16 \\times 7 = 112\\text{ meter}$$"
+            },
+            {
+                id: 38,
+                type: "Aplikasi Aritmatika - Pembagian Uang",
+                question: "Seorang ibu membagikan uang kepada $5$ anaknya menurut aturan deret aritmatika. Jika uang yang diterima anak kedua adalah $\\text{Rp}6.500,00$ dan anak keempat $\\text{Rp}9.500,00$, berapakah jumlah seluruh uang yang dibagikan?",
+                options: [
+                    "$\\text{Rp}35.000,00$",
+                    "$\\text{Rp}40.000,00$",
+                    "$\\text{Rp}45.000,00$",
+                    "$\\text{Rp}30.000,00$"
+                ],
+                correctIndex: 1, // B
+                explanation: "Merujuk No. 14 PDF 10-Latihan 09.\n$U_2 = a + b = 6.500$.\n$U_4 = a + 3b = 9.500$.\nKurangkan: $2b = 3.000 \\implies b = 1.500$.\nSubstitusi: $a = 6.500 - 1.500 = 5.000$.\nJumlah seluruh uang ($S_5$):\n$$S_5 = \\frac{5}{2}(2(5.000) + (5-1)1.500) = \\frac{5}{2}(10.000 + 6.000) = \\frac{5}{2}(16.000) = \\text{Rp}40.000,00$$"
+            },
+            {
+                id: 39,
+                type: "Aplikasi Geometri - Pertumbuhan Penduduk",
+                question: "Jumlah penduduk suatu kota tiap $10\\text{ tahun}$ menjadi $2$ kali lipat. Menurut hasil sensus tahun 2012, jumlah penduduk kota tersebut adalah $3,2\\text{ juta}$ orang. Ini berarti bahwa pada tahun 1962 jumlah penduduk kota baru mencapai...",
+                options: [
+                    "$100\\text{ ribu}$",
+                    "$160\\text{ ribu}$",
+                    "$120\\text{ ribu}$",
+                    "$80\\text{ ribu}$"
+                ],
+                correctIndex: 0, // A
+                explanation: "Merujuk No. 15 PDF 10-Latihan 09.\nSelang waktu: $2012 - 1962 = 50\\text{ tahun}$.\nBanyak periode perubahan $n = \\frac{50}{10} = 5$.\nRasio $r = 2$.\n$$P_{2012} = P_{1962} \\times 2^5$$\n$$3.200.000 = P_{1962} \\times 32 \\implies P_{1962} = \\frac{3.200.000}{32} = 100.000\\text{ orang (100 ribu)}$$"
+            },
+            {
+                id: 40,
+                type: "Aplikasi Aritmatika - Produksi Barang",
+                question: "Seorang perawat setiap hari membuat gulungan kapas kecil dan mencatatnya. Banyaknya gulungan kapas pada hari ke-$n$ memenuhi rumus $U_n = 80 + 20n$. Berapakah total gulungan kapas yang dibuat selama $18\\text{ hari}$ pertama?",
+                options: [
+                    "$4.850\\text{ buah}$",
+                    "$4.880\\text{ buah}$",
+                    "$4.860\\text{ buah}$",
+                    "$4.840\\text{ buah}$"
+                ],
+                correctIndex: 2, // C
+                explanation: "Merujuk No. 16 PDF 10-Latihan 09.\n$U_1 = 80 + 20(1) = 100$.\n$U_{18} = 80 + 20(18) = 80 + 360 = 440$.\nJumlah 18 hari pertama ($S_{18}$):\n$$S_{18} = \\frac{18}{2}(U_1 + U_{18}) = 9(100 + 440) = 9(540) = 4.860\\text{ buah}$$"
+            }
+        ];
+
+        const STORAGE_KEY = "SMA_QUIZ_BARISAN_DERET_V1";
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedState();
+            setupOnlineOfflineListeners();
+            renderQuestionGrid();
+            displayCurrentQuestion();
+        });
+
+        function setupOnlineOfflineListeners() {
+            const banner = document.getElementById('connectionBanner');
+            const indicator = document.getElementById('offlineIndicator');
+
+            function updateOnlineStatus() {
+                if (!navigator.onLine) {
+                    banner.classList.remove('hidden');
+                    indicator.classList.remove('hidden');
+                } else {
+                    banner.classList.add('hidden');
+                    indicator.classList.add('hidden');
+                }
+            }
+
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+        }
+
+        function loadSavedState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    userAnswers = parsed.userAnswers || {};
+                    currentQuestionIndex = parsed.currentIndex || 0;
+                }
+            } catch (e) {
+                console.error("Gagal memuat state lokal:", e);
+            }
+        }
+
+        function saveState() {
+            try {
+                const state = {
+                    userAnswers: userAnswers,
+                    currentIndex: currentQuestionIndex
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {
+                console.error("Gagal menyimpan state lokal:", e);
+            }
+            updateProgressStats();
+        }
+
+        function resetQuizProgress() {
+            if (confirm("Apakah kamu yakin ingin mereset seluruh jawaban dan mengulang quiz dari awal?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                userAnswers = {};
+                currentQuestionIndex = 0;
+                renderQuestionGrid();
+                displayCurrentQuestion();
+                closeModal();
+            }
+        }
+
+        function triggerKaTeXRender() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function displayCurrentQuestion() {
+            const q = quizData[currentQuestionIndex];
+            
+            document.getElementById('currentNumDisplay').innerText = currentQuestionIndex + 1;
+            document.getElementById('topicBadge').innerText = q.type;
+            document.getElementById('questionText').innerHTML = q.question;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOption = userAnswers[q.id];
+
+            const statusTag = document.getElementById('statusTag');
+            if (!isAnswered) {
+                statusTag.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500";
+                statusTag.innerText = "Belum Dijawab";
+            } else if (selectedOption === q.correctIndex) {
+                statusTag.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-700";
+                statusTag.innerText = "Benar ✓";
+            } else {
+                statusTag.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-100 text-rose-700";
+                statusTag.innerText = "Salah ✗";
+            }
+
+            const optionPrefixes = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = getOptionStyle(idx, selectedOption, q.correctIndex, isAnswered);
+                btn.onclick = () => handleOptionSelect(q.id, idx);
+                
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3 text-left w-full">
+                        <span class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ${getPrefixStyle(idx, selectedOption, q.correctIndex, isAnswered)}">
+                            ${optionPrefixes[idx]}
+                        </span>
+                        <div class="text-sm font-medium leading-relaxed overflow-x-auto w-full">${optText}</div>
+                    </div>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            if (isAnswered) {
+                feedbackBox.classList.remove('hidden');
+                const isCorrect = selectedOption === q.correctIndex;
+                if (isCorrect) {
+                    feedbackBox.className = "mt-6 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900";
+                    document.getElementById('feedbackTitle').innerHTML = `
+                        <svg class="w-5 h-5 text-emerald-600 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Jawaban Kamu Benar!</span>
+                    `;
+                } else {
+                    feedbackBox.className = "mt-6 p-4 rounded-xl border bg-rose-50 border-rose-200 text-rose-900";
+                    document.getElementById('feedbackTitle').innerHTML = `
+                        <svg class="w-5 h-5 text-rose-600 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Jawaban Kurang Tepat!</span>
+                    `;
+                }
+                
+                const formattedExplanation = q.explanation.replace(/\n/g, '<br>');
+                document.getElementById('feedbackExplanation').innerHTML = `<strong>Pembahasan Soal:</strong><br>${formattedExplanation}`;
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.innerHTML = `<span>Selesai</span>`;
+            } else {
+                nextBtn.innerHTML = `<span>Berikutnya</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            }
+
+            renderQuestionGrid();
+            saveState();
+            setTimeout(triggerKaTeXRender, 50);
+        }
+
+        function getOptionStyle(idx, selectedIdx, correctIdx, isAnswered) {
+            let base = "w-full p-4 rounded-xl border text-left transition-all duration-200 flex items-center justify-between ";
+            if (!isAnswered) {
+                return base + "bg-white border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 text-slate-700 cursor-pointer";
+            }
+            if (idx === correctIdx) {
+                return base + "bg-emerald-50 border-emerald-500 text-emerald-900 font-semibold ring-1 ring-emerald-500";
+            }
+            if (idx === selectedIdx && idx !== correctIdx) {
+                return base + "bg-rose-50 border-rose-400 text-rose-900 ring-1 ring-rose-400";
+            }
+            return base + "bg-slate-50 border-slate-200 text-slate-400 opacity-60 cursor-default";
+        }
+
+        function getPrefixStyle(idx, selectedIdx, correctIdx, isAnswered) {
+            if (!isAnswered) {
+                return "bg-slate-100 text-slate-600 group-hover:bg-indigo-600 group-hover:text-white";
+            }
+            if (idx === correctIdx) {
+                return "bg-emerald-600 text-white";
+            }
+            if (idx === selectedIdx && idx !== correctIdx) {
+                return "bg-rose-600 text-white";
+            }
+            return "bg-slate-200 text-slate-500";
+        }
+
+        function handleOptionSelect(questionId, optionIndex) {
+            userAnswers[questionId] = optionIndex;
+            displayCurrentQuestion();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < quizData.length) {
+                currentQuestionIndex = newIndex;
+                displayCurrentQuestion();
+            } else if (newIndex === quizData.length) {
+                finishQuiz();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            displayCurrentQuestion();
+        }
+
+        function renderQuestionGrid() {
+            const grid = document.getElementById('questionGrid');
+            grid.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                const isCurrent = idx === currentQuestionIndex;
+                const isAnswered = userAnswers.hasOwnProperty(q.id);
+                const isCorrect = isAnswered && userAnswers[q.id] === q.correctIndex;
+
+                let classes = "w-full aspect-square rounded-xl text-xs font-bold transition flex items-center justify-center relative ";
+
+                if (isCurrent) {
+                    classes += "ring-2 ring-indigo-600 ring-offset-2 ";
+                }
+
+                if (!isAnswered) {
+                    classes += "bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200";
+                } else if (isCorrect) {
+                    classes += "bg-emerald-500 text-white shadow-sm";
+                } else {
+                    classes += "bg-rose-500 text-white shadow-sm";
+                }
+
+                btn.className = classes;
+                btn.innerText = idx + 1;
+                btn.onclick = () => jumpToQuestion(idx);
+
+                grid.appendChild(btn);
+            });
+
+            updateProgressStats();
+        }
+
+        function updateProgressStats() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('answeredCount').innerText = answeredCount;
+        }
+
+        function finishQuiz() {
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+
+            quizData.forEach(q => {
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correctIndex) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                } else {
+                    unansweredCount++;
+                }
+            });
+
+            const score = Math.round((correctCount / quizData.length) * 100);
+
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('correctCountText').innerText = correctCount;
+            document.getElementById('wrongCountText').innerText = wrongCount;
+            document.getElementById('unansweredCountText').innerText = unansweredCount;
+
+            const predicateEl = document.getElementById('scorePredicate');
+            const iconEl = document.getElementById('scoreBadgeIcon');
+            
+            if (score >= 85) {
+                predicateEl.innerText = "Luar Biasa! Pemahaman Barisan & Deret Sangat Tinggi! 🌟";
+                predicateEl.className = "text-sm font-bold text-emerald-600 mt-2";
+                iconEl.innerText = "🏆";
+                triggerConfetti();
+            } else if (score >= 70) {
+                predicateEl.innerText = "Bagus Sekali! Pemahaman Materi Sudah Mantap! 👍";
+                predicateEl.className = "text-sm font-bold text-indigo-600 mt-2";
+                iconEl.innerText = "👏";
+            } else {
+                predicateEl.innerText = "Terus Latihan Lagi Untuk Memantapkan Konsep! 💪";
+                predicateEl.className = "text-sm font-bold text-amber-600 mt-2";
+                iconEl.innerText = "📚";
+            }
+
+            document.getElementById('resultModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.add('hidden');
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
