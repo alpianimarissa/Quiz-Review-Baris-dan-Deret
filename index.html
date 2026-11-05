@@ -224,7 +224,6 @@
 
     <script>
         // 40 PROBLEMS DATA BANK
-        // Balanced answer key across index 0 (A), 1 (B), 2 (C), 3 (D) [10 of each]
         const quizData = [
             // ARITMATIKA (1-10)
             {
@@ -246,12 +245,12 @@
                 question: "Jika jumlah $n$ suku pertama suatu deret aritmatika ditentukan oleh $S_n = \\frac{n}{2}(3n + 5)$, berapakah nilai suku ke-$6$ ($U_6$)?",
                 options: [
                     "$36$",
+                    "$19$",
                     "$33$",
-                    "$38$",
                     "$42$"
                 ],
-                correctIndex: 1, // B
-                explanation: "Gunakan hubungan $U_n = S_n - S_{n-1}$.\nUntuk $n = 6$:\n$$S_6 = \\frac{6}{2}(3(6) + 5) = 3(18 + 5) = 3(23) = 69$$\n$$S_5 = \\frac{5}{2}(3(5) + 5) = \\frac{5}{2}(20) = 50$$\nMaka $U_6 = S_6 - S_5 = 69 - 50 = 19$.\nAtau suku ke-$n$ $U_n = 3n + 1 \\implies U_6 = 3(6) + 1 = 19$. Cek opsi pilihan: $32$, $19$, $36$, $33$.\nMaka $U_6 = 33$ jika $S_n = \\frac{n}{2}(3n+5)$ pada soal turunan lain. Untuk $S_n = \\frac{n}{2}(3n+5)$, $U_6 = 33$ (Opsi B)."
+                correctIndex: 1, // B (19)
+                explanation: "Gunakan hubungan $U_n = S_n - S_{n-1}$.\nUntuk $n = 6$:\n$$S_6 = \\frac{6}{2}(3(6) + 5) = 3(18 + 5) = 3(23) = 69$$\nUntuk $n = 5$:\n$$S_5 = \\frac{5}{2}(3(5) + 5) = \\frac{5}{2}(20) = 50$$\nMaka $U_6 = S_6 - S_5 = 69 - 50 = 19$."
             },
             {
                 id: 3,
@@ -272,12 +271,12 @@
                 question: "Berapakah jumlah seluruh bilangan bulat antara $10$ dan $60$ yang habis dibagi $3$ tetapi tidak habis dibagi $4$?",
                 options: [
                     "$285$",
-                    "$332$",
+                    "$432$",
                     "$384$",
                     "$272$"
                 ],
-                correctIndex: 3, // D
-                explanation: "1. Bilangan habis dibagi 3 antara 10 dan 60: $12, 15, 18, \\dots, 57$.\n$$a = 12, b = 3, U_n = 57 \\implies 12 + (n-1)3 = 57 \\implies n = 16$$\n$$S_A = \\frac{16}{2}(12 + 57) = 8(69) = 552$$\n2. Bilangan habis dibagi 3 dan 4 (habis dibagi 12) antara 10 dan 60: $12, 24, 36, 48$.\n$$n = 4, S_B = \\frac{4}{2}(12 + 48) = 2(60) = 120$$\n3. Jumlah yang tidak habis dibagi 4 $= 552 - 120 = 432$, atau untuk kisaran antara 5 dan 50 bernilai $272$ (Opsi D)."
+                correctIndex: 1, // B (432)
+                explanation: "1. Bilangan habis dibagi 3 antara 10 dan 60: $12, 15, 18, \\dots, 57$.\n$$a = 12, b = 3, U_n = 57 \\implies 12 + (n-1)3 = 57 \\implies n = 16$$\n$$S_A = \\frac{16}{2}(12 + 57) = 8(69) = 552$$\n2. Bilangan habis dibagi 3 dan 4 (habis dibagi 12) antara 10 dan 60: $12, 24, 36, 48$.\n$$n = 4, S_B = \\frac{4}{2}(12 + 48) = 2(60) = 120$$\n3. Jumlah yang tidak habis dibagi 4 $= 552 - 120 = 432$."
             },
             {
                 id: 5,
@@ -391,12 +390,12 @@
                 question: "Tiga buah bilangan $k-1$, $2k-2$, dan $3k+1$ berturut-turut membentuk barisan geometri. Manakah nilai bilangan terbesar di antara ketiga bilangan tersebut?",
                 options: [
                     "$16$",
-                    "$32$",
                     "$24$",
+                    "$32$",
                     "$48$"
                 ],
-                correctIndex: 1, // B
-                explanation: "Sifat barisan geometri: $U_2^2 = U_1 \\cdot U_3$.\n$$(2k - 2)^2 = (k - 1)(3k + 1)$$\n$$4k^2 - 8k + 4 = 3k^2 - 2k - 1$$\n$$k^2 - 6k + 5 = 0$$\n$$(k - 1)(k - 5) = 0$$\nUntuk $k = 5$ (karena $k=1$ membuat suku bernilai 0):\n$U_1 = 5 - 1 = 4$\n$U_2 = 2(5) - 2 = 8$\n$U_3 = 3(5) + 1 = 16$. Jika diteruskan $2k+2$ atau opsi sejenis, bilangan terbesar adalah $32$ (Opsi B)."
+                correctIndex: 0, // A (16)
+                explanation: "Sifat barisan geometri: $U_2^2 = U_1 \\cdot U_3$.\n$$(2k - 2)^2 = (k - 1)(3k + 1)$$\n$$4k^2 - 8k + 4 = 3k^2 - 2k - 1$$\n$$k^2 - 6k + 5 = 0$$\n$$(k - 1)(k - 5) = 0$$\nUntuk $k = 5$ (karena $k=1$ membuat suku bernilai 0):\n$U_1 = 5 - 1 = 4$\n$U_2 = 2(5) - 2 = 8$\n$U_3 = 3(5) + 1 = 16$.\nNilai bilangan terbesar di antara ketiganya adalah $16$."
             },
             {
                 id: 14,
@@ -448,7 +447,7 @@
                     "$12$"
                 ],
                 correctIndex: 0, // A
-                explanation: "Misal barisan geometri: $a, ar, ar^2$. Total $= a(1 + r + r^2) = 26$.\nJika $ar + 4$, maka $a, ar+4, ar^2$ aritmatika $\\implies 2(ar + 4) = a + ar^2$.\n$$2ar + 8 = a + ar^2 \\implies a - 2ar + ar^2 = 8$$\nDari $a + ar + ar^2 = 26$, kurangi persamaan di atas:\n$$3ar = 18 \\implies ar = 6$$\nSubstitusi $a = 6/r$:\n$$\\frac{6}{r} + 6 + 6r = 26 \\implies 6r^2 - 20r + 6 = 0 \\implies 3r^2 - 10r + 3 = 0$$\n$$(3r - 1)(r - 3) = 0 \\implies r = 3 \\text{ atau } r = 1/3$.\nJika $r = 3$, maka $a = 6/3 = 2$."
+                explanation: "Misalkan barisan geometri adalah $a, ar, ar^2$ dengan jumlah $a(1 + r + r^2) = 26$.\nJika suku tengah ditambah 4 menjadi $ar + 4$, terbentuk barisan aritmatika, sehingga:\n$$2(ar + 4) = a + ar^2 \\implies 2ar + 8 = a + ar^2 \\implies a - 2ar + ar^2 = 8$$\nDari persamaan jumlah $a + ar + ar^2 = 26$, kurangkan dengan persamaan di atas:\n$$3ar = 18 \\implies ar = 6$$\nSubstitusi $a = 6/r$ ke dalam persamaan jumlah:\n$$\\frac{6}{r} + 6 + 6r = 26 \\implies 6r^2 - 20r + 6 = 0 \\implies 3r^2 - 10r + 3 = 0$$\n$$(3r - 1)(r - 3) = 0 \\implies r = 3 \\text{ atau } r = \\frac{1}{3}.$$\nUntuk $r = 3$, diperoleh suku pertama $a = \\frac{6}{3} = 2$."
             },
             {
                 id: 18,
@@ -466,15 +465,15 @@
             {
                 id: 19,
                 type: "Barisan Geometri - Logaritma",
-                question: "Suatu deret geometri semua sukunya positif. Jika $U_1 + U_2 + U_3 = 10,5$ dan $\\log_2 U_1 + \\log_2 U_2 + \\log_2 U_3 = \\log_2 U_4 - 2$, berapakah nilai suku ke-$4$ ($U_4$)?",
+                question: "Suatu deret geometri semua sukunya positif. Jika $U_1 + U_2 + U_3 = 10{,}5$ dan $\\log_2 U_1 + \\log_2 U_2 + \\log_2 U_3 = \\log_2 U_4 - 2$, berapakah nilai suku ke-$4$ ($U_4$)?",
                 options: [
-                    "$36$",
+                    "$16$",
                     "$24$",
                     "$32$",
                     "$40$"
                 ],
-                correctIndex: 1, // B
-                explanation: "$\\log_2 (U_1 \\cdot U_2 \\cdot U_3) = \\log_2 \\left(\\frac{U_4}{4}\\right) \\implies U_1 \\cdot U_2 \\cdot U_3 = \\frac{U_4}{4}$.\n$a \\cdot ar \\cdot ar^2 = a^3 r^3 = (ar)^3 = U_2^3$.\nDan $\\frac{U_4}{4} = \\frac{a r^3}{4}$.\nDengan menyederhanakan sistem persamaan diperoleh $a = 1.5, r = 2 \\implies U_4 = 1.5 \\times 8 = 12$ atau $24$ pada variasi koefisien logaritma (Opsi B)."
+                correctIndex: 2, // C (32)
+                explanation: "Dari bentuk $\\log_2 U_1 + \\log_2 U_2 + \\log_2 U_3 = \\log_2 (U_1 U_2 U_3) = \\log_2 U_4 - 2$, diperoleh:\n$$U_1 U_2 U_3 = \\frac{U_4}{4}$$\nKarena $U_1 U_2 U_3 = (ar)^2 \\cdot a = a^3 r^3 = (ar)^3 = U_2^3$, dan diketahui rasio $r = 4$ dari bentuk di atas, dengan $a = 0{,}5$, maka suku ke-$4$ adalah:\n$$U_4 = a r^3 = 0{,}5 \\times 4^3 = 0{,}5 \\times 64 = 32$$"
             },
             {
                 id: 20,
@@ -490,32 +489,32 @@
                 explanation: "$U_{n+1} = S_{n+1} - S_n = 248 - 240 = 8$.\n$U_{n+2} = S_{n+2} - S_{n+1} = 252 - 248 = 4$.\nRasio $r = \\frac{U_{n+2}}{U_{n+1}} = \\frac{4}{8} = \\frac{1}{2}$.\nKarena $r = 1/2$, maka $S_n = \\frac{a(1 - (1/2)^n)}{1 - 1/2} = 2a(1 - (1/2)^n) = 240$.\nDengan menghitung mundur diperoleh $a = 128$."
             },
 
-            // DERET GEOMETRI TAK HINGGA (21-30 - Ref PDF Latihan 07)
+            // DERET GEOMETRI TAK HINGGA (21-30)
             {
                 id: 21,
                 type: "Deret Tak Hingga - Suku Kedua & Ganjil",
                 question: "Suatu deret geometri turun mempunyai jumlah tak hingga $24$. Jika jumlah suku-suku bernomor ganjil adalah $18$, berapakah nilai suku kedua ($U_2$)?",
                 options: [
                     "$6$",
-                    "$16/3$",
+                    "$\\frac{16}{3}$",
                     "$8$",
-                    "$20/3$"
+                    "$\\frac{20}{3}$"
                 ],
-                correctIndex: 0, // A
-                explanation: "Merujuk No. 12 PDF 08-Latihan 07.\nDeret tak hingga: $S_{\\infty} = \\frac{a}{1 - r} = 24$.\nJumlah suku ganjil: $S_{\\text{ganjil}} = \\frac{a}{1 - r^2} = 18$.\nBagi kedua persamaan:\n$$\\frac{S_{\\text{ganjil}}}{S_{\\infty}} = \\frac{1 - r}{1 - r^2} = \\frac{1}{1 + r} = \\frac{18}{24} = \\frac{3}{4}$$\n$$3(1 + r) = 4 \\implies 3 + 3r = 4 \\implies r = \\frac{1}{3}$$\nSubstitusi $r = 1/3$ ke $S_{\\infty}$:\n$$\\frac{a}{1 - 1/3} = 24 \\implies \\frac{a}{2/3} = 24 \\implies a = 16$$\nMaka suku kedua $U_2 = a \\cdot r = 16 \\times \\frac{1}{3} = \\frac{16}{3} \\approx 5.33$. (Jika $a=18, r=1/3$, maka $U_2 = 6$)."
+                correctIndex: 1, // B (16/3)
+                explanation: "Deret tak hingga: $S_{\\infty} = \\frac{a}{1 - r} = 24$.\nJumlah suku ganjil: $S_{\\text{ganjil}} = \\frac{a}{1 - r^2} = 18$.\nBagi kedua persamaan:\n$$\\frac{S_{\\text{ganjil}}}{S_{\\infty}} = \\frac{1 - r}{1 - r^2} = \\frac{1}{1 + r} = \\frac{18}{24} = \\frac{3}{4}$$\n$$3(1 + r) = 4 \\implies 3 + 3r = 4 \\implies r = \\frac{1}{3}$$\nSubstitusi $r = 1/3$ ke $S_{\\infty}$:\n$$\\frac{a}{1 - 1/3} = 24 \\implies \\frac{a}{2/3} = 24 \\implies a = 16$$\nMaka suku kedua $U_2 = a \\cdot r = 16 \\times \\frac{1}{3} = \\frac{16}{3}$."
             },
             {
                 id: 22,
                 type: "Deret Tak Hingga - Suku Genap",
                 question: "Jumlah tak hingga suatu deret geometri adalah $8$ dan jumlah semua suku yang bernomor genap adalah $\\frac{8}{3}$. Berapakah nilai suku ke-$5$ ($U_5$) deret tersebut?",
                 options: [
-                    "$\\frac{1}{4}$",
                     "$\\frac{1}{2}$",
+                    "$\\frac{1}{4}$",
                     "$1$",
                     "$\\frac{1}{3}$"
                 ],
-                correctIndex: 1, // B
-                explanation: "Merujuk No. 13 PDF 08-Latihan 07.\n$S_{\\infty} = \\frac{a}{1 - r} = 8$.\n$S_{\\text{genap}} = \\frac{ar}{1 - r^2} = \\frac{8}{3}$.\nBagi $S_{\\text{genap}}$ dengan $S_{\\infty}$:\n$$\\frac{ar / (1-r^2)}{a / (1-r)} = \\frac{r}{1+r} = \\frac{8/3}{8} = \\frac{1}{3}$$\n$$3r = 1 + r \\implies 2r = 1 \\implies r = \\frac{1}{2}$$\nSubstitusi $r = 1/2$:\n$$\\frac{a}{1/2} = 8 \\implies a = 4$$\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = 4 \\times \\left(\\frac{1}{2}\\right)^4 = 4 \\times \\frac{1}{16} = \\frac{1}{4}$$ (atau $1/2$ pada rasio $r=1/\\sqrt{2}$)."
+                correctIndex: 1, // B (1/4)
+                explanation: "$S_{\\infty} = \\frac{a}{1 - r} = 8$.\n$S_{\\text{genap}} = \\frac{ar}{1 - r^2} = \\frac{8}{3}$.\nBagi $S_{\\text{genap}}$ dengan $S_{\\infty}$:\n$$\\frac{ar / (1-r^2)}{a / (1-r)} = \\frac{r}{1+r} = \\frac{8/3}{8} = \\frac{1}{3}$$\n$$3r = 1 + r \\implies 2r = 1 \\implies r = \\frac{1}{2}$$\nSubstitusi $r = 1/2$ ke $S_{\\infty}$:\n$$\\frac{a}{1 - 1/2} = 8 \\implies a = 4$$\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = 4 \\times \\left(\\frac{1}{2}\\right)^4 = 4 \\times \\frac{1}{16} = \\frac{1}{4}$$"
             },
             {
                 id: 23,
@@ -527,21 +526,21 @@
                     "$\\frac{1}{3} < C < 1$",
                     "$\\frac{1}{5} < C < \\frac{4}{5}$"
                 ],
-                correctIndex: 0, // A
-                explanation: "Merujuk No. 14 PDF 08-Latihan 07.\nDeret konvergen $\\implies -1 < r < 1$.\nTambah $3$: $2 < r + 3 < 4$.\nSuku pertama $a = \\frac{1}{r+3}$, rasio $R = \\frac{1}{r+3}$.\nJumlah $C = \\frac{a}{1 - R} = \\frac{1/(r+3)}{1 - 1/(r+3)} = \\frac{1}{(r+3) - 1} = \\frac{1}{r+2}$.\nKarena $-1 < r < 1 \\implies 1 < r + 2 < 3$.\nMaka $\\frac{1}{3} < C < 1$ (Opsi C). Untuk variasi $-1 < r < 1$, $\\frac{1}{4} < C < \\frac{1}{2}$ berlaku jika batas penyebut $+4$."
+                correctIndex: 2, // C (1/3 < C < 1)
+                explanation: "Deret konvergen menyaratkan $-1 < r < 1$.\nTambahkan $3$ pada setiap ruas: $2 < r + 3 < 4$.\nSuku pertama deret adalah $a = \\frac{1}{r+3}$ dan rasio $R = \\frac{1}{r+3}$.\nJumlah deret $C = \\frac{a}{1 - R} = \\frac{1/(r+3)}{1 - 1/(r+3)} = \\frac{1}{(r+3) - 1} = \\frac{1}{r+2}$.\nKarena $-1 < r < 1$, maka $1 < r + 2 < 3$.\nSehingga rentang nilai $C$ adalah $\\frac{1}{3} < C < 1$."
             },
             {
                 id: 24,
                 type: "Deret Tak Hingga - Lintasan Bolak-Balik",
                 question: "Sebuah benda bergerak sepanjang garis lurus. Mula-mula bergerak ke kanan sejauh $S$, kemudian ke kiri sejauh $\\frac{1}{2}S$, lalu ke kanan lagi sejauh $\\frac{1}{4}S$, dan seterusnya. Panjang total lintasan yang ditempuh benda sampai berhenti adalah...",
                 options: [
-                    "$1.5 S$",
+                    "$1{,}5 S$",
                     "$3 S$",
-                    "$2.5 S$",
+                    "$2{,}5 S$",
                     "$2 S$"
                 ],
                 correctIndex: 3, // D
-                explanation: "Merujuk No. 15 PDF 08-Latihan 07.\nPanjang total lintasan hitung semua jarak tanpa tanda minus (selalu positif):\n$$\\text{Lintasan} = S + \\frac{1}{2}S + \\frac{1}{4}S + \\dots$$\nIni adalah deret geometri tak hingga dengan $a = S$ dan $r = 1/2$.\n$$\\text{Total} = \\frac{S}{1 - 1/2} = \\frac{S}{1/2} = 2S$$"
+                explanation: "Panjang total lintasan dihitung dari penjumlahan seluruh jarak mutlak:\n$$\\text{Lintasan} = S + \\frac{1}{2}S + \\frac{1}{4}S + \\dots$$\nIni adalah deret geometri tak hingga dengan $a = S$ dan $r = 1/2$.\n$$\\text{Total} = \\frac{S}{1 - 1/2} = \\frac{S}{1/2} = 2S$$"
             },
             {
                 id: 25,
@@ -554,20 +553,20 @@
                     "$3$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 16 PDF 08-Latihan 07.\n$U_1 = 4^{-1} = \\frac{1}{4}$.\n$U_2 = 4^{-2} = \\frac{1}{16}$.\nRasio $r = \\frac{1/16}{1/4} = \\frac{1}{4}$.\nJumlah tak hingga:\n$$S_{\\infty} = \\frac{a}{1 - r} = \\frac{1/4}{1 - 1/4} = \\frac{1/4}{3/4} = \\frac{1}{3}$$"
+                explanation: "$U_1 = 4^{-1} = \\frac{1}{4}$.\n$U_2 = 4^{-2} = \\frac{1}{16}$.\nRasio $r = \\frac{1/16}{1/4} = \\frac{1}{4}$.\nJumlah tak hingga:\n$$S_{\\infty} = \\frac{a}{1 - r} = \\frac{1/4}{1 - 1/4} = \\frac{1/4}{3/4} = \\frac{1}{3}$$"
             },
             {
                 id: 26,
                 type: "Deret Tak Hingga - Pertidaksamaan",
                 question: "Jumlah suku deret geometri tak hingga adalah $1$. Jika suku pertama deretnya adalah $2 + \\frac{1}{x}$, manakah pertidaksamaan yang harus dipenuhi oleh nilai $x$?",
                 options: [
-                    "$-\\frac{1}{2} < x < 0$",
                     "$x < -\\frac{1}{2}$",
+                    "$-\\frac{1}{2} < x < 0$",
                     "$0 < x < \\frac{1}{2}$",
                     "$-\\frac{1}{2} < x < \\frac{1}{2}$"
                 ],
-                correctIndex: 0, // A
-                explanation: "Merujuk No. 17 PDF 08-Latihan 07.\n$S_{\\infty} = \\frac{a}{1 - r} = 1 \\implies 1 - r = a \\implies r = 1 - a$.\nSyarat konvergensi: $-1 < r < 1$.\n$$-1 < 1 - a < 1 \\implies -2 < -a < 0 \\implies 0 < a < 2$$\nSubstitusi $a = 2 + \\frac{1}{x}$:\n$$0 < 2 + \\frac{1}{x} < 2$$\nKurangi 2: $-2 < \\frac{1}{x} < 0$.\nKarena $\\frac{1}{x} < 0 \\implies x < 0$.\nDan $\\frac{1}{x} > -2 \\implies x < -\\frac{1}{2}$ atau $x > 0$.\nIrisan kondisi: $x < -\\frac{1}{2}$ atau $-\\frac{1}{2} < x < 0$ (Opsi A)."
+                correctIndex: 0, // A (x < -1/2)
+                explanation: "Diketahui $S_{\\infty} = \\frac{a}{1-r} = 1$, sehingga $1 - r = a \\implies r = 1 - a$.\nSyarat konvergensi deret geometri: $-1 < r < 1$.\n$$-1 < 1 - a < 1 \\implies -2 < -a < 0 \\implies 0 < a < 2$$\nSubstitusi $a = 2 + \\frac{1}{x}$:\n$$0 < 2 + \\frac{1}{x} < 2$$\nKurangi $2$ pada semua ruas: $-2 < \\frac{1}{x} < 0$.\nKarena $\\frac{1}{x} < 0$, maka $x < 0$.\nDan dari $\\frac{1}{x} > -2$, didapatkan solusi $x < -\\frac{1}{2}$ atau $x > 0$. Irisan yang memenuhi adalah $x < -\\frac{1}{2}$."
             },
             {
                 id: 27,
@@ -580,7 +579,7 @@
                     "$18\\frac{2}{3}$"
                 ],
                 correctIndex: 2, // C
-                explanation: "Merujuk No. 18 PDF 08-Latihan 07.\n$S_2 = a(1 + r) = 16$.\n$S_3 = a(1 + r + r^2) = 24$.\n$$U_3 = S_3 - S_2 = 24 - 16 = 8 \\implies a r^2 = 8$$\nDari $a = \\frac{16}{1+r}$, substitusi: $\\frac{16 r^2}{1+r} = 8 \\implies 2r^2 - r - 1 = 0 \\implies (2r + 1)(r - 1) = 0$.\nKarena rasio negatif: $r = -1/2$.\nSubstitusi $r = -1/2$: $a(1 - 1/2) = 16 \\implies a/2 = 16 \\implies a = 32$.\nJumlah tak hingga:\n$$S_{\\infty} = \\frac{32}{1 - (-1/2)} = \\frac{32}{3/2} = \\frac{64}{3} = 21\\frac{1}{3}$$"
+                explanation: "$S_2 = a(1 + r) = 16$.\n$S_3 = a(1 + r + r^2) = 24$.\n$$U_3 = S_3 - S_2 = 24 - 16 = 8 \\implies a r^2 = 8$$\nDari $a = \\frac{16}{1+r}$, diperoleh $\\frac{16 r^2}{1+r} = 8 \\implies 2r^2 - r - 1 = 0 \\implies (2r + 1)(r - 1) = 0$.\nKarena rasionya negatif, maka $r = -1/2$.\nSubstitusi $r = -1/2$ menghasilkan $a = 32$.\nJumlah tak hingga:\n$$S_{\\infty} = \\frac{32}{1 - (-1/2)} = \\frac{32}{3/2} = \\frac{64}{3} = 21\\frac{1}{3}$$"
             },
             {
                 id: 28,
@@ -593,7 +592,7 @@
                     "$^3\\log \\frac{1}{2}$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 11 PDF 08-Latihan 07.\nRuang kiri: deret geometri $a = 2^x, r = 1/2 \\implies S_1 = \\frac{2^x}{1 - 1/2} = 2 \\cdot 2^x = 2^{x+1}$.\nRuang kanan: deret geometri $a = 4^x, r = 1/4 \\implies S_2 = \\frac{4^x}{1 - 1/4} = \\frac{4}{3} \\cdot 4^x$.\nPersamaan:\n$$2^{x+1} = \\frac{4}{3} \\cdot 2^{2x} \\implies 2 \\cdot 2^x = \\frac{4}{3} \\cdot (2^x)^2$$\nBagi dengan $2^x$ ($2^x \\neq 0$):\n$$2 = \\frac{4}{3} \\cdot 2^x \\implies 2^x = \\frac{6}{4} = \\frac{3}{2}$$\n$$x = ^2\\log \\frac{3}{2}$$"
+                explanation: "Ruas kiri: deret geometri dengan $a = 2^x, r = 1/2 \\implies S_1 = \\frac{2^x}{1 - 1/2} = 2^{x+1}$.\nRuas kanan: deret geometri dengan $a = 4^x, r = 1/4 \\implies S_2 = \\frac{4^x}{1 - 1/4} = \\frac{4}{3} \\cdot 4^x$.\nPersamaan:\n$$2^{x+1} = \\frac{4}{3} \\cdot 2^{2x} \\implies 2 \\cdot 2^x = \\frac{4}{3} \\cdot (2^x)^2$$\nBagi dengan $2^x$:\n$$2 = \\frac{4}{3} \\cdot 2^x \\implies 2^x = \\frac{6}{4} = \\frac{3}{2} \\implies x = ^2\\log \\frac{3}{2}$$"
             },
             {
                 id: 29,
@@ -606,7 +605,7 @@
                     "$2$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 07 PDF 08-Latihan 07.\nPisahkan menjadi 2 deret geometri tak hingga:\nDeret 1: $\\frac{1}{2} + \\frac{1}{4} + \\frac{1}{8} + \\dots \\implies a_1 = 1/2, r_1 = 1/2 \\implies S_1 = \\frac{1/2}{1 - 1/2} = 1$.\nDeret 2: $\\frac{1}{3} + \\frac{1}{9} + \\frac{1}{27} + \\dots \\implies a_2 = 1/3, r_2 = 1/3 \\implies S_2 = \\frac{1/3}{1 - 1/3} = \\frac{1/3}{2/3} = \\frac{1}{2}$.\nTotal $= S_1 + S_2 = 1 + \\frac{1}{2} = \\frac{3}{2}$."
+                explanation: "Pisahkan menjadi dua deret geometri tak hingga:\nDeret 1: $\\frac{1}{2} + \\frac{1}{4} + \\frac{1}{8} + \\dots \\implies S_1 = \\frac{1/2}{1 - 1/2} = 1$.\nDeret 2: $\\frac{1}{3} + \\frac{1}{9} + \\frac{1}{27} + \\dots \\implies S_2 = \\frac{1/3}{1 - 1/3} = \\frac{1}{2}$.\nTotal $= S_1 + S_2 = 1 + \\frac{1}{2} = \\frac{3}{2}$."
             },
             {
                 id: 30,
@@ -619,10 +618,10 @@
                     "$8$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 08 PDF 08-Latihan 07.\n$S_{\\text{ganjil}} = \\frac{a}{1 - r^2} = \\frac{256}{3}$.\n$S_{\\text{genap}} = \\frac{ar}{1 - r^2} = \\frac{128}{3}$.\nBagi $S_{\\text{genap}}$ dengan $S_{\\text{ganjil}}$:\n$$r = \\frac{128/3}{256/3} = \\frac{1}{2}$$\nSubstitusi $r = 1/2$ ke $S_{\\text{ganjil}}$:\n$$\\frac{a}{1 - 1/4} = \\frac{256}{3} \\implies \\frac{a}{3/4} = \\frac{256}{3} \\implies a = 64$$\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = 64 \\times \\left(\\frac{1}{2}\\right)^4 = 64 \\times \\frac{1}{16} = 4$$"
+                explanation: "$S_{\\text{ganjil}} = \\frac{a}{1 - r^2} = \\frac{256}{3}$.\n$S_{\\text{genap}} = \\frac{ar}{1 - r^2} = \\frac{128}{3}$.\nBagi $S_{\\text{genap}}$ dengan $S_{\\text{ganjil}}$:\n$$r = \\frac{128/3}{256/3} = \\frac{1}{2}$$\nSubstitusi $r = 1/2$ ke $S_{\\text{ganjil}}$:\n$$\\frac{a}{1 - 1/4} = \\frac{256}{3} \\implies \\frac{a}{3/4} = \\frac{256}{3} \\implies a = 64$$\nSuku ke-5 ($U_5$):\n$$U_5 = a \\cdot r^4 = 64 \\times \\left(\\frac{1}{2}\\right)^4 = 64 \\times \\frac{1}{16} = 4$$"
             },
 
-            // APLIKASI BARISAN DAN DERET (31-40 - Ref PDF Latihan 09)
+            // APLIKASI BARISAN DAN DERET (31-40)
             {
                 id: 31,
                 type: "Aplikasi Aritmatika - Angsuran Hutang",
@@ -634,7 +633,7 @@
                     "$44\\text{ bulan}$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 05 PDF 10-Latihan 09.<br>Model deret aritmatika: $a = 25$, beda $b = 2$, $S_n = 880$.<br>$$S_n = \\frac{n}{2}(2a + (n-1)b) = 880$$<br>$$\\frac{n}{2}(2(25) + (n-1)2) = 880$$<br>$$\\frac{n}{2}(50 + 2n - 2) = 880 \\implies \\frac{n}{2}(48 + 2n) = 880$$<br>$$n(24 + n) = 880 \\implies n^2 + 24n - 880 = 0$$<br>$$(n + 44)(n - 20) = 0$$<br>Karena waktu bernilai positif, dijumpai $n = 20\\text{ bulan}$."
+                explanation: "Model deret aritmatika: $a = 25$, beda $b = 2$, $S_n = 880$.\n$$S_n = \\frac{n}{2}(2a + (n-1)b) = 880$$\n$$\\frac{n}{2}(50 + 2n - 2) = 880 \\implies n(24 + n) = 880 \\implies n^2 + 24n - 880 = 0$$\n$$(n + 44)(n - 20) = 0$$\nKarena waktu bernilai positif, dijumpai $n = 20\\text{ bulan}$."
             },
             {
                 id: 32,
@@ -647,7 +646,7 @@
                     "$14\\text{ cm}$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 06 PDF 10-Latihan 09.\nMisal sisi-sisi segitiga siku-siku: $a, a+b, a+2b$.\nDiketahui sisi terpendek $a = 6$.\nSisi-sisi: $6, 6+b, 6+2b$.\nPythagoras:\n$$(6+b)^2 + 6^2 = (6+2b)^2$$\n$$36 + 12b + b^2 + 36 = 36 + 24b + 4b^2$$\n$$3b^2 + 12b - 36 = 0 \\implies b^2 + 4b - 12 = 0$$\n$$(b + 6)(b - 2) = 0 \\implies b = 2$$\nSisi siku-siku yang panjang $= 6 + b = 6 + 2 = 8\\text{ cm}$."
+                explanation: "Misalkan sisi-sisi segitiga siku-siku adalah $a, a+b, a+2b$ dengan $a = 6$.\nTeorema Pythagoras:\n$$(6+b)^2 + 6^2 = (6+2b)^2$$\n$$36 + 12b + b^2 + 36 = 36 + 24b + 4b^2$$\n$$3b^2 + 12b - 36 = 0 \\implies b^2 + 4b - 12 = 0$$\n$$(b + 6)(b - 2) = 0 \\implies b = 2$$\nSisi siku-siku yang lain $= 6 + b = 6 + 2 = 8\\text{ cm}$."
             },
             {
                 id: 33,
@@ -660,7 +659,7 @@
                     "$232\\text{ cm}$"
                 ],
                 correctIndex: 2, // C
-                explanation: "Merujuk No. 07 PDF 10-Latihan 09.\n$n = 6, U_1 = a = 3, U_6 = 96$.\n$$U_6 = a \\cdot r^5 \\implies 3 \\cdot r^5 = 96 \\implies r^5 = 32 \\implies r = 2$$\nPanjang keseluruhan tali ($S_6$):\n$$S_6 = \\frac{a(r^6 - 1)}{r - 1} = \\frac{3(2^6 - 1)}{2 - 1} = 3(64 - 1) = 3(63) = 189\\text{ cm}$$"
+                explanation: "$n = 6, U_1 = a = 3, U_6 = 96$.\n$$U_6 = a \\cdot r^5 \\implies 3 \\cdot r^5 = 96 \\implies r^5 = 32 \\implies r = 2$$\nPanjang keseluruhan tali ($S_6$):\n$$S_6 = \\frac{a(r^6 - 1)}{r - 1} = \\frac{3(2^6 - 1)}{2 - 1} = 3(63) = 189\\text{ cm}$$"
             },
             {
                 id: 34,
@@ -673,7 +672,7 @@
                     "$729\\text{ bakteri}$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 08 PDF 10-Latihan 09.\nSuku awal saat $t=0$ adalah $a = 2$. Rasio $r = 3$.\nBanyak bakteri setelah $t = 6\\text{ detik}$ adalah suku ke-7 ($U_7$):\n$$U_7 = a \\cdot r^6 = 2 \\times 3^6 = 2 \\times 729 = 1458\\text{ bakteri}$$.\n(Catatan: Jika dipandang 6 kali membelah dari 2 bakteri, $2 \\times 729 = 1458$)."
+                explanation: "Suku awal $a = 2$, rasio $r = 3$.\nBanyak bakteri setelah $6\\text{ detik}$ adalah suku ke-7 ($U_7$):\n$$U_7 = a \\cdot r^6 = 2 \\times 3^6 = 2 \\times 729 = 1458\\text{ bakteri}$$"
             },
             {
                 id: 35,
@@ -686,7 +685,7 @@
                     "$102.400.000$"
                 ],
                 correctIndex: 2, // C
-                explanation: "Merujuk No. 09 PDF 10-Latihan 09.\nBulan 1 (Maret): $U_1 = 200.000$.\nBulan 2 (April): $U_2 = 400.000 \\implies r = 2$.\nBulan Oktober adalah bulan ke-8 (Maret=1, April=2, Mei=3, Juni=4, Juli=5, Agst=6, Sept=7, Okt=8).\n$$U_8 = a \\cdot r^7 = 200.000 \\times 2^7 = 200.000 \\times 128 = 25.600.000\\text{ orang}$$"
+                explanation: "Bulan 1 (Maret): $a = 200.000$, rasio $r = 2$.\nBulan Oktober adalah bulan ke-8.\n$$U_8 = a \\cdot r^7 = 200.000 \\times 2^7 = 200.000 \\times 128 = 25.600.000\\text{ orang}$$"
             },
             {
                 id: 36,
@@ -699,7 +698,7 @@
                     "$2050\\text{ cm}$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 10 PDF 10-Latihan 09.\n$n = 7, a = 64, U_7 = 729$.\n$$U_7 = a \\cdot r^6 \\implies 64 \\cdot r^6 = 729 \\implies r^6 = \\frac{729}{64} = \\left(\\frac{3}{2}\\right)^6 \\implies r = \\frac{3}{2}$$\nPanjang total tali ($S_7$):\n$$S_7 = \\frac{64 \\left( (3/2)^7 - 1 \\right)}{3/2 - 1} = \\frac{64 \\left( \\frac{2187}{128} - 1 \\right)}{1/2} = 128 \\times \\frac{2059}{128} = 2059\\text{ cm}$$"
+                explanation: "$n = 7, a = 64, U_7 = 729$.\n$$U_7 = a \\cdot r^6 \\implies 64 \\cdot r^6 = 729 \\implies r^6 = \\frac{729}{64} = \\left(\\frac{3}{2}\\right)^6 \\implies r = \\frac{3}{2}$$\nPanjang total tali ($S_7$):\n$$S_7 = \\frac{64 \\left( (3/2)^7 - 1 \\right)}{3/2 - 1} = 128 \\times \\frac{2059}{128} = 2059\\text{ cm}$$"
             },
             {
                 id: 37,
@@ -712,7 +711,7 @@
                     "$116\\text{ meter}$"
                 ],
                 correctIndex: 2, // C
-                explanation: "Merujuk No. 13 PDF 10-Latihan 09.\nRumus praktis panjang lintasan bola jatuh memantul:\n$$\\text{Lintasan} = h \\times \\left(\\frac{b + a}{b - a}\\right)$$\nDengan $h = 16\\text{ m}$ dan rasio $r = \\frac{a}{b} = \\frac{3}{4}$:\n$$\\text{Lintasan} = 16 \\times \\left(\\frac{4 + 3}{4 - 3}\\right) = 16 \\times 7 = 112\\text{ meter}$$"
+                explanation: "Rumus praktis panjang lintasan bola jatuh memantul:\n$$\\text{Lintasan} = h \\times \\left(\\frac{b + a}{b - a}\\right)$$\nDengan $h = 16\\text{ m}$ dan rasio $r = \\frac{a}{b} = \\frac{3}{4}$:\n$$\\text{Lintasan} = 16 \\times \\left(\\frac{4 + 3}{4 - 3}\\right) = 16 \\times 7 = 112\\text{ meter}$$"
             },
             {
                 id: 38,
@@ -725,12 +724,12 @@
                     "$\\text{Rp}30.000,00$"
                 ],
                 correctIndex: 1, // B
-                explanation: "Merujuk No. 14 PDF 10-Latihan 09.\n$U_2 = a + b = 6.500$.\n$U_4 = a + 3b = 9.500$.\nKurangkan: $2b = 3.000 \\implies b = 1.500$.\nSubstitusi: $a = 6.500 - 1.500 = 5.000$.\nJumlah seluruh uang ($S_5$):\n$$S_5 = \\frac{5}{2}(2(5.000) + (5-1)1.500) = \\frac{5}{2}(10.000 + 6.000) = \\frac{5}{2}(16.000) = \\text{Rp}40.000,00$$"
+                explanation: "$U_2 = a + b = 6.500$.\n$U_4 = a + 3b = 9.500$.\nKurangkan: $2b = 3.000 \\implies b = 1.500$.\nSubstitusi: $a = 5.000$.\nJumlah seluruh uang ($S_5$):\n$$S_5 = \\frac{5}{2}(2(5.000) + (5-1)1.500) = \\frac{5}{2}(16.000) = \\text{Rp}40.000,00$$"
             },
             {
                 id: 39,
                 type: "Aplikasi Geometri - Pertumbuhan Penduduk",
-                question: "Jumlah penduduk suatu kota tiap $10\\text{ tahun}$ menjadi $2$ kali lipat. Menurut hasil sensus tahun 2012, jumlah penduduk kota tersebut adalah $3,2\\text{ juta}$ orang. Ini berarti bahwa pada tahun 1962 jumlah penduduk kota baru mencapai...",
+                question: "Jumlah penduduk suatu kota tiap $10\\text{ tahun}$ menjadi $2$ kali lipat. Menurut hasil sensus tahun 2012, jumlah penduduk kota tersebut adalah $3{,}2\\text{ juta}$ orang. Ini berarti bahwa pada tahun 1962 jumlah penduduk kota baru mencapai...",
                 options: [
                     "$100\\text{ ribu}$",
                     "$160\\text{ ribu}$",
@@ -738,7 +737,7 @@
                     "$80\\text{ ribu}$"
                 ],
                 correctIndex: 0, // A
-                explanation: "Merujuk No. 15 PDF 10-Latihan 09.\nSelang waktu: $2012 - 1962 = 50\\text{ tahun}$.\nBanyak periode perubahan $n = \\frac{50}{10} = 5$.\nRasio $r = 2$.\n$$P_{2012} = P_{1962} \\times 2^5$$\n$$3.200.000 = P_{1962} \\times 32 \\implies P_{1962} = \\frac{3.200.000}{32} = 100.000\\text{ orang (100 ribu)}$$"
+                explanation: "Selang waktu: $2012 - 1962 = 50\\text{ tahun}$.\nBanyak periode perubahan $n = \\frac{50}{10} = 5$.\nRasio $r = 2$.\n$$P_{2012} = P_{1962} \\times 2^5$$\n$$3.200.000 = P_{1962} \\times 32 \\implies P_{1962} = \\frac{3.200.000}{32} = 100.000\\text{ orang (100 ribu)}$$"
             },
             {
                 id: 40,
@@ -751,7 +750,7 @@
                     "$4.840\\text{ buah}$"
                 ],
                 correctIndex: 2, // C
-                explanation: "Merujuk No. 16 PDF 10-Latihan 09.\n$U_1 = 80 + 20(1) = 100$.\n$U_{18} = 80 + 20(18) = 80 + 360 = 440$.\nJumlah 18 hari pertama ($S_{18}$):\n$$S_{18} = \\frac{18}{2}(U_1 + U_{18}) = 9(100 + 440) = 9(540) = 4.860\\text{ buah}$$"
+                explanation: "$U_1 = 80 + 20(1) = 100$.\n$U_{18} = 80 + 20(18) = 80 + 360 = 440$.\nJumlah 18 hari pertama ($S_{18}$):\n$$S_{18} = \\frac{18}{2}(U_1 + U_{18}) = 9(100 + 440) = 9(540) = 4.860\\text{ buah}$$"
             }
         ];
 
